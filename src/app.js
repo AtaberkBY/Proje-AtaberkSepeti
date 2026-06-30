@@ -3,12 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const sequelize = require('./config/database');
 
-const User = require('./models/User');
-const Product = require('./models/Product');
-const Cart = require('./models/Cart');
-const CartItem = require('./models/CartItem');
-const Order = require('./models/Order');
-const OrderItem = require('./models/OrderItem');
+const { User, Product, Cart, CartItem, Order, OrderItem } = require('./models');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
