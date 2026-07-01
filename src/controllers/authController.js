@@ -52,7 +52,14 @@ exports.login = async (req, res) => {
         user.refreshToken = refreshToken;
         await user.save();
 
-        return res.status(200).json({ message: 'Login successful', accessToken, refreshToken, user: { id: user.id, name: user.name, email: user.email}});
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        return res.status(200).json({ message: 'Login successful', accessToken, user: { id: user.id, name: user.name, email: user.email}});
     }
     catch (error) {
         return res.status(500).json({ message: 'An error occurred while logging in', error: error.message });
@@ -61,7 +68,7 @@ exports.login = async (req, res) => {
 
 exports.refreshAccessToken = async (req, res) => {
     try {
-        const { refreshToken} = req.body;
+        const refreshToken = req.cookies.refreshToken;
         if(!refreshToken) {
             return res.status(401).json({ message: 'Refresh token is required' });
         }
