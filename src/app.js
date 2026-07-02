@@ -1,9 +1,10 @@
 require('dotenv').config();
 
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
-const cookieParser = require('cookie-parser');
+const cartRoutes = require('./routes/cartRoutes');
 const { User, Product, Cart, CartItem, Order, OrderItem } = require('./models');
 
 const app = express();
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/auth', authRoutes);
+app.use('/api/cart', cartRoutes);
 
 
 const SyncDatabase = async () => {
