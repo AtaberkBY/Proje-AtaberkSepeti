@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const productRoutes = require('./routes/productRoutes');
 const { User, Product, Cart, CartItem, Order, OrderItem } = require('./models');
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/products', productRoutes);
 
 
 const SyncDatabase = async () => {
